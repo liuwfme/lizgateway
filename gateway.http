@@ -1,0 +1,17 @@
+###
+GET http://localhost:8888/hello
+Accept: application/json
+
+###
+GET http://localhost:8888/gw
+Accept: application/json
+
+###
+POST http://localhost:8888/gw/cn.liz.lizrpc.demo.api.UserService
+Content-Type: application/json
+
+{
+  "service":"cn.liz.lizrpc.demo.api.UserService",
+  "methodSign":"findById@1_int",
+  "args":[100]
+}
