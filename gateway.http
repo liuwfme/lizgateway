@@ -7,10 +7,32 @@ GET http://localhost:8888/gw
 Accept: application/json
 
 ###
-GET http://localhost:8888/ga/aaa
+GET http://localhost:8888/gw/aaa
 
-###
-POST http://localhost:8888/ga/cn.liz.lizrpc.demo.api.UserService
+### post lizrpc
+POST http://localhost:8888/gw/lizrpc/cn.liz.lizrpc.demo.api.UserService
+#POST http://localhost:8888/ga/cn.liz.lizrpc.demo.api.UserService?mock=true
+Content-Type: application/json
+
+{
+  "service":"cn.liz.lizrpc.demo.api.UserService",
+  "methodSign":"findById@1_int",
+  "args":[100]
+}
+
+### post direct lizrpc
+POST http://localhost:8888/gw/direct/cn.liz.lizrpc.demo.api.UserService
+#POST http://localhost:8888/ga/cn.liz.lizrpc.demo.api.UserService?mock=true
+Content-Type: application/json
+
+{
+  "service":"cn.liz.lizrpc.demo.api.UserService",
+  "methodSign":"findById@1_int",
+  "args":[100]
+}
+
+### post direct backend
+POST http://localhost:8888/gw/direct/cn.liz.lizrpc.demo.api.UserService?backend=http://localhost:8081/lizrpc
 #POST http://localhost:8888/ga/cn.liz.lizrpc.demo.api.UserService?mock=true
 Content-Type: application/json
 

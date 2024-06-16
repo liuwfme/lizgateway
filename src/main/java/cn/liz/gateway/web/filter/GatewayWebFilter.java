@@ -1,4 +1,4 @@
-package cn.liz.gateway;
+package cn.liz.gateway.web.filter;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
