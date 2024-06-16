@@ -1,6 +1,7 @@
 package cn.liz.gateway.plugin;
 
 import cn.liz.gateway.AbstractGatewayPlugin;
+import cn.liz.gateway.GatewayPluginChain;
 import cn.liz.lizrpc.core.api.LoadBalancer;
 import cn.liz.lizrpc.core.cluster.RoundRibonLoadBalancer;
 import cn.liz.lizrpc.core.meta.InstanceMeta;
@@ -30,7 +31,7 @@ public class LizRpcPlugin extends AbstractGatewayPlugin {
     LoadBalancer<InstanceMeta> loadBalancer = new RoundRibonLoadBalancer<>();
 
     @Override
-    public Mono<Void> doHandle(ServerWebExchange exchange) {
+    public Mono<Void> doHandle(ServerWebExchange exchange, GatewayPluginChain chain) {
         System.out.println("===> [lizrpc plugin] ...");
 
         // 1.通过请求路径获取服务名
@@ -62,7 +63,8 @@ public class LizRpcPlugin extends AbstractGatewayPlugin {
         exchange.getResponse().getHeaders().add("Content-Type", "application/json");
         exchange.getResponse().getHeaders().add("liz.gw.version", "v1.0.0");
         return body.flatMap(x -> exchange.getResponse()
-                .writeWith(Mono.just(exchange.getResponse().bufferFactory().wrap(x.getBytes()))));
+                .writeWith(Mono.just(exchange.getResponse().bufferFactory().wrap(x.getBytes()))))
+                .then(chain.handle(exchange));
     }
 
     @Override
